@@ -9,7 +9,7 @@
 
 </head>
 
-<body onload="checkLogin(); loadTickets(['New','In Progress'], 'activeContainer')">
+<body onload="checkLogin(); render()">
 
   <div class="header">
 
@@ -19,21 +19,11 @@
 
     <div class="menu">
 
-      <a href="create-ticket.html">
-        Create Ticket
-      </a>
+      <a href="create-ticket.html">Create Ticket</a>
+      <a href="active-tickets.html">Active Tickets</a>
+      <a href="completed-tickets.html">Completed</a>
 
-      <a href="active-tickets.html">
-        Active Tickets
-      </a>
-
-      <a href="completed-tickets.html">
-        Completed Tickets
-      </a>
-
-      <button onclick="logout()">
-        Logout
-      </button>
+      <button onclick="logout()">Logout</button>
 
     </div>
 
@@ -45,12 +35,33 @@
 
       <h2>Active Tickets</h2>
 
-      <input
-        type="text"
-        id="searchActive"
-        placeholder="Search Tickets"
-        onkeyup="searchTickets('searchActive', 'activeContainer')"
-      >
+      <!-- DASHBOARD -->
+      <div class="stats">
+
+        <div class="stat" id="statAll">All: 0</div>
+        <div class="stat" id="statNew">New: 0</div>
+        <div class="stat" id="statProg">In Progress: 0</div>
+        <div class="stat" id="statDone">Completed: 0</div>
+
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filters">
+
+        <input
+          id="search"
+          placeholder="Search tickets..."
+          onkeyup="render()"
+        >
+
+        <select id="filter" onchange="render()">
+          <option value="All">All Status</option>
+          <option value="New">New</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+
+      </div>
 
       <div id="activeContainer"></div>
 
