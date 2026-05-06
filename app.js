@@ -7,7 +7,7 @@ function login() {
 
   if (email === USERNAME && password === PASSWORD) {
     localStorage.setItem('loggedIn', 'true');
-    window.location.href = 'create-ticket.html';
+    window.location.href = 'active-tickets.html';
   } else {
     alert('Invalid Login');
   }
@@ -37,6 +37,8 @@ function createTicket(event) {
 
   const tickets = getTickets();
 
+  const currentDate = new Date().toLocaleString();
+
   const ticket = {
     id: 'POS-' + Date.now(),
     businessName: document.getElementById('businessName').value,
@@ -46,16 +48,22 @@ function createTicket(event) {
     date: document.getElementById('date').value,
     requester: document.getElementById('requester').value,
     notes: document.getElementById('notes').value,
-    createdAt: new Date().toISOString()
+
+    createdDate: currentDate,
+    notesUpdatedDate: currentDate,
+    completedDate: '',
+    lastUpdated: currentDate
   };
 
   tickets.push(ticket);
 
   saveTickets(tickets);
 
-  alert('Ticket Created');
+  alert('Ticket Created Successfully');
 
   document.getElementById('ticketForm').reset();
+
+  window.location.href = 'active-tickets.html';
 }
 
 function loadTickets(statuses, containerId) {
@@ -64,4 +72,12 @@ function loadTickets(statuses, containerId) {
 
   container.innerHTML = '';
 
+  const filteredTickets = tickets.filter(ticket =>
+    statuses.includes(ticket.progress)
+  );
+
+  if (filteredTickets.length === 0) {
+    container.innerHTML = `
+      <div class="ticket">
+        <h3>No Tickets Found</h3>
 }
