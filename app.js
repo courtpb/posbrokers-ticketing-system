@@ -92,7 +92,8 @@ function addNote(id) {
 
   const tickets = getTickets();
 
-  tickets.forEach(t => {
+  const updated = tickets.map(t => {
+
     if (String(t.id) === String(id)) {
 
       if (!Array.isArray(t.notes)) {
@@ -102,9 +103,13 @@ function addNote(id) {
       t.notes.push(now + " - " + text);
       t.updated = now;
     }
+
+    return t;
   });
 
-  saveTickets(tickets);
+  saveTickets(updated);
+
+  input.value = "";
 
   render();
 }
@@ -174,9 +179,12 @@ function render() {
 
   t.reverse().forEach(x => {
 
-    let notes = "";
-    if (Array.isArray(x.notes)) {
-      notes = x.notes.map(n => `<div class="note">${n}</div>`).join("");
+    let notesHTML = "";
+
+    if (Array.isArray(x.notes) && x.notes.length > 0) {
+      notesHTML = x.notes.map(n => `<div class="note">${n}</div>`).join("");
+    } else {
+      notesHTML = `<div class="note">No notes yet</div>`;
     }
 
     box.innerHTML += `
@@ -196,7 +204,7 @@ function render() {
 
           <hr>
 
-          ${notes}
+          ${notesHTML}
 
           <textarea id="note-${x.id}"></textarea>
           <button onclick="addNote('${x.id}')">Add Note</button>
