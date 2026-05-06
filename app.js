@@ -26,8 +26,6 @@ function logout() {
 
   sessionStorage.clear();
 
-  alert('Logged Out Successfully');
-
   window.location.replace('index.html');
 
 }
@@ -64,6 +62,8 @@ function createTicket(event) {
 
   const currentDate = new Date().toLocaleString();
 
+  const initialNotes = document.getElementById('notes').value;
+
   const ticket = {
 
     id: 'POS-' + Date.now(),
@@ -80,11 +80,11 @@ function createTicket(event) {
 
     requester: document.getElementById('requester').value,
 
-    notes: document.getElementById('notes').value,
+    noteHistory: initialNotes
+      ? [`${currentDate} - ${initialNotes}`]
+      : [],
 
     createdDate: currentDate,
-
-    notesUpdatedDate: currentDate,
 
     completedDate: '',
 
@@ -123,7 +123,6 @@ function loadTickets(statuses, containerId) {
     container.innerHTML = `
       <div class="ticket">
         <h3>No Tickets Found</h3>
-        <p>Create a new ticket to get started.</p>
       </div>
     `;
 
@@ -135,6 +134,10 @@ function loadTickets(statuses, containerId) {
     .slice()
     .reverse()
     .forEach(ticket => {
+
+      const notesHTML = ticket.noteHistory
+        .map(note => `<p>${note}</p>`)
+        .join('');
 
       container.innerHTML += `
 
@@ -154,27 +157,30 @@ function loadTickets(statuses, containerId) {
 
           <hr>
 
-          <div class="edit-section">
+          <p><strong>Request:</strong></p>
 
-            <label><strong>Request</strong></label>
+          <p>${ticket.request}</p>
 
-            <textarea onchange="updateField('${ticket.id}', 'request', this.value)">
-${ticket.request}
-            </textarea>
+          <hr>
 
-            <label><strong>Notes</strong></label>
+          <p><strong>Notes History</strong></p>
 
-            <textarea onchange="updateField('${ticket.id}', 'notes', this.value)">
-${ticket.notes}
-            </textarea>
+          ${notesHTML}
 
-          </div>
+          <textarea
+            id="note-${ticket.id}"
+            placeholder="Add New Note"
+          ></textarea>
+
+          <button onclick="addNote('${ticket.id}')">
+            Add Note
+          </button>
+
+          <hr>
 
           <p><strong>Date Created:</strong> ${ticket.createdDate}</p>
 
           <p><strong>Last Updated:</strong> ${ticket.lastUpdated}</p>
-
-          <p><strong>Notes Updated:</strong> ${ticket.notesUpdatedDate}</p>
 
           <p><strong>Date Completed:</strong> ${ticket.completedDate || 'Not Completed'}</p>
 
@@ -196,7 +202,7 @@ ${ticket.notes}
 
           </select>
 
-          <br>
+          <br><br>
 
           <button onclick="deleteTicket('${ticket.id}')">
             Delete Ticket
@@ -207,6 +213,52 @@ ${ticket.notes}
       `;
 
     });
+
+}
+
+function addNote(id) {
+
+  const textarea = document.getElementById(`note-${id}`);
+
+  const newNote = textarea.value.trim();
+
+  if (!newNote) {
+
+    alert('Please enter a note');
+
+    return;
+
+  }
+
+  const tickets = getTickets();
+
+  const updatedTickets = tickets.map(ticket => {
+
+    if (ticket.id === id) {
+
+      const timestamp = new Date().toLocaleString();
+
+      if (!ticket.noteHistory) {
+
+        ticket.noteHistory = [];
+
+      }
+
+      ticket.noteHistory.push(
+        `${timestamp} - ${newNote}`
+      );
+
+      ticket.lastUpdated = timestamp;
+
+    }
+
+    return ticket;
+
+  });
+
+  saveTickets(updatedTickets);
+
+  location.reload();
 
 }
 
@@ -237,34 +289,6 @@ function updateStatus(id, newStatus) {
   saveTickets(updatedTickets);
 
   location.reload();
-
-}
-
-function updateField(id, field, value) {
-
-  const tickets = getTickets();
-
-  const updatedTickets = tickets.map(ticket => {
-
-    if (ticket.id === id) {
-
-      ticket[field] = value;
-
-      ticket.lastUpdated = new Date().toLocaleString();
-
-      if (field === 'notes') {
-
-        ticket.notesUpdatedDate = new Date().toLocaleString();
-
-      }
-
-    }
-
-    return ticket;
-
-  });
-
-  saveTickets(updatedTickets);
 
 }
 
@@ -316,11 +340,15 @@ function exportCSV() {
   const tickets = getTickets();
 
   let csv =
-    'Ticket ID,Business Name,Merchant ID,Requester,Date,Status,Request,Notes,Created Date,Last Updated,Notes Updated,Completed Date\n';
+    'Ticket ID,Business Name,Merchant ID,Requester,Date,Status,Request,Notes History,Created Date,Last Updated,Completed Date\n';
 
   tickets.forEach(ticket => {
 
-    csv += `"${ticket.id}","${ticket.businessName}","${ticket.merchantId}","${ticket.requester}","${ticket.date}","${ticket.progress}","${ticket.request}","${ticket.notes}","${ticket.createdDate}","${ticket.lastUpdated}","${ticket.notesUpdatedDate}","${ticket.completedDate}"\n`;
+    const notes = ticket.noteHistory
+      ? ticket.noteHistory.join(' | ')
+      : '';
+
+    csv += `"${ticket.id}","${ticket.businessName}","${ticket.merchantId}","${ticket.requester}","${ticket.date}","${ticket.progress}","${ticket.request}","${notes}","${ticket.createdDate}","${ticket.lastUpdated}","${ticket.completedDate}"\n`;
 
   });
 
