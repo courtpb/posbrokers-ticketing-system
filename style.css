@@ -8,7 +8,7 @@ body {
 .header {
   background: #0b2e59;
   color: white;
-  padding: 20px;
+  padding: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,18 +28,26 @@ body {
 .menu a {
   text-decoration: none;
   color: white;
-  background: #174b85;
+  background: #1f4f8b;
   padding: 10px 14px;
   border-radius: 6px;
 }
 
+.menu a:hover {
+  background: #163a66;
+}
+
 button {
-  background: #0b2e59;
+  background: #1f4f8b;
   color: white;
   border: none;
   padding: 10px 14px;
   border-radius: 6px;
   cursor: pointer;
+}
+
+button:hover {
+  background: #163a66;
 }
 
 .container {
@@ -53,6 +61,7 @@ button {
   border-radius: 10px;
 }
 
+/* DASHBOARD */
 .stats {
   display: flex;
   gap: 10px;
@@ -61,18 +70,18 @@ button {
 
 .stat {
   flex: 1;
-  background: #0b2e59;
+  background: #1f4f8b;
   color: white;
   padding: 10px;
   text-align: center;
   border-radius: 6px;
 }
 
+/* FILTERS */
 .filters {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
-  flex-wrap: wrap;
 }
 
 input, select, textarea {
@@ -81,6 +90,7 @@ input, select, textarea {
   border: 1px solid #ccc;
 }
 
+/* TICKETS */
 .ticket {
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -111,6 +121,7 @@ input, select, textarea {
   font-size: 13px;
 }
 
+/* PRIORITY */
 .priority-low { border-left: 5px solid #4caf50; }
 .priority-medium { border-left: 5px solid #ff9800; }
 .priority-high { border-left: 5px solid #f44336; }
