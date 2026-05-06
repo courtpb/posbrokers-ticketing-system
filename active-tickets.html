@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Active Tickets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkLogin(); loadTickets(['New', 'In Progress'], 'activeContainer')">
 
+<div class="header">
+  <div class="logo">POS Brokers Ticketing</div>
+
+  <div class="menu">
+    <a href="create-ticket.html">Create Ticket</a>
+    <a href="active-tickets.html">Active Tickets</a>
+    <a href="completed-tickets.html">Completed Tickets</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card">
+
+    <h2>Active Tickets</h2>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchActive"
+        placeholder="Search tickets..."
+        onkeyup="searchTickets('searchActive', 'activeContainer')"
+      >
+    </div>
+
+    <div id="activeContainer"></div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
