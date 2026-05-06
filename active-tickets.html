@@ -2,75 +2,49 @@
 <html>
 
 <head>
-
   <title>Active Tickets</title>
-
   <link rel="stylesheet" href="style.css">
-
 </head>
 
-<body onload="checkLogin(); render()">
+<body onload="checkLogin(); render();">
 
-  <div class="header">
+<div class="header">
+  <div class="logo">POS Brokers Tickets</div>
+  <div class="menu">
+    <a href="create-ticket.html">Create</a>
+    <a href="active-tickets.html">Active</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
 
-    <div class="logo">
-      POS Brokers Ticketing
+<div class="container">
+
+  <div class="card">
+
+    <div class="stats">
+      <div class="stat" id="statAll">All: 0</div>
+      <div class="stat" id="statNew">New: 0</div>
+      <div class="stat" id="statProg">In Progress: 0</div>
+      <div class="stat" id="statDone">Completed: 0</div>
     </div>
 
-    <div class="menu">
-
-      <a href="create-ticket.html">Create Ticket</a>
-      <a href="active-tickets.html">Active Tickets</a>
-      <a href="completed-tickets.html">Completed</a>
-
-      <button onclick="logout()">Logout</button>
-
+    <div class="filters">
+      <input id="search" onkeyup="render()" placeholder="Search">
+      <select id="filter" onchange="render()">
+        <option>All</option>
+        <option>New</option>
+        <option>In Progress</option>
+        <option>Completed</option>
+      </select>
     </div>
+
+    <div id="activeContainer"></div>
 
   </div>
 
-  <div class="container">
+</div>
 
-    <div class="card">
-
-      <h2>Active Tickets</h2>
-
-      <!-- DASHBOARD -->
-      <div class="stats">
-
-        <div class="stat" id="statAll">All: 0</div>
-        <div class="stat" id="statNew">New: 0</div>
-        <div class="stat" id="statProg">In Progress: 0</div>
-        <div class="stat" id="statDone">Completed: 0</div>
-
-      </div>
-
-      <!-- FILTERS -->
-      <div class="filters">
-
-        <input
-          id="search"
-          placeholder="Search tickets..."
-          onkeyup="render()"
-        >
-
-        <select id="filter" onchange="render()">
-          <option value="All">All Status</option>
-          <option value="New">New</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-
-      </div>
-
-      <div id="activeContainer"></div>
-
-    </div>
-
-  </div>
-
-  <script src="app.js"></script>
+<script src="app.js"></script>
 
 </body>
-
 </html>
