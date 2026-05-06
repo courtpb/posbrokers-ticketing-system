@@ -88,7 +88,9 @@ function createTicket(event) {
 
     completedDate: '',
 
-    lastUpdated: currentDate
+    lastUpdated: currentDate,
+
+    expanded: false
 
   };
 
@@ -101,6 +103,22 @@ function createTicket(event) {
   document.getElementById('ticketForm').reset();
 
   window.location.href = 'active-tickets.html';
+
+}
+
+function toggleTicket(id) {
+
+  const details = document.getElementById(`details-${id}`);
+
+  if (details.style.display === 'none') {
+
+    details.style.display = 'block';
+
+  } else {
+
+    details.style.display = 'none';
+
+  }
 
 }
 
@@ -136,77 +154,117 @@ function loadTickets(statuses, containerId) {
     .forEach(ticket => {
 
       const notesHTML = ticket.noteHistory
-        .map(note => `<p>${note}</p>`)
-        .join('');
+        ? ticket.noteHistory.map(note =>
+            `<div class="note-item">${note}</div>`
+          ).join('')
+        : '';
 
       container.innerHTML += `
 
         <div class="ticket">
 
-          <h3>${ticket.id}</h3>
+          <div
+            class="ticket-summary"
+            onclick="toggleTicket('${ticket.id}')"
+          >
 
-          <p><strong>Business:</strong> ${ticket.businessName}</p>
+            <h3>${ticket.businessName}</h3>
 
-          <p><strong>Merchant ID:</strong> ${ticket.merchantId}</p>
+            <p>
+              <strong>Merchant ID:</strong>
+              ${ticket.merchantId}
+            </p>
 
-          <p><strong>Requester:</strong> ${ticket.requester}</p>
+            <p>
+              <strong>Requester:</strong>
+              ${ticket.requester}
+            </p>
 
-          <p><strong>Date:</strong> ${ticket.date}</p>
+            <p>
+              <strong>Date:</strong>
+              ${ticket.date}
+            </p>
 
-          <p><strong>Status:</strong> ${ticket.progress}</p>
+            <p>
+              <strong>Status:</strong>
+              ${ticket.progress}
+            </p>
 
-          <hr>
+          </div>
 
-          <p><strong>Request:</strong></p>
+          <div
+            id="details-${ticket.id}"
+            style="display:none;"
+          >
 
-          <p>${ticket.request}</p>
+            <hr>
 
-          <hr>
+            <p><strong>Request:</strong></p>
 
-          <p><strong>Notes History</strong></p>
+            <p>${ticket.request}</p>
 
-          ${notesHTML}
+            <hr>
 
-          <textarea
-            id="note-${ticket.id}"
-            placeholder="Add New Note"
-          ></textarea>
+            <p><strong>Notes History</strong></p>
 
-          <button onclick="addNote('${ticket.id}')">
-            Add Note
-          </button>
+            ${notesHTML}
 
-          <hr>
+            <textarea
+              id="note-${ticket.id}"
+              placeholder="Add New Note"
+            ></textarea>
 
-          <p><strong>Date Created:</strong> ${ticket.createdDate}</p>
+            <button onclick="addNote('${ticket.id}')">
+              Add Note
+            </button>
 
-          <p><strong>Last Updated:</strong> ${ticket.lastUpdated}</p>
+            <hr>
 
-          <p><strong>Date Completed:</strong> ${ticket.completedDate || 'Not Completed'}</p>
+            <p>
+              <strong>Date Created:</strong>
+              ${ticket.createdDate}
+            </p>
 
-          <label><strong>Update Status</strong></label>
+            <p>
+              <strong>Last Updated:</strong>
+              ${ticket.lastUpdated}
+            </p>
 
-          <select onchange="updateStatus('${ticket.id}', this.value)">
+            <p>
+              <strong>Date Completed:</strong>
+              ${ticket.completedDate || 'Not Completed'}
+            </p>
 
-            <option value="New" ${ticket.progress === 'New' ? 'selected' : ''}>
-              New
-            </option>
+            <label>
+              <strong>Update Status</strong>
+            </label>
 
-            <option value="In Progress" ${ticket.progress === 'In Progress' ? 'selected' : ''}>
-              In Progress
-            </option>
+            <select onchange="updateStatus('${ticket.id}', this.value)">
 
-            <option value="Completed" ${ticket.progress === 'Completed' ? 'selected' : ''}>
-              Completed
-            </option>
+              <option value="New"
+                ${ticket.progress === 'New' ? 'selected' : ''}>
+                New
+              </option>
 
-          </select>
+              <option value="In Progress"
+                ${ticket.progress === 'In Progress' ? 'selected' : ''}>
+                In Progress
+              </option>
 
-          <br><br>
+              <option value="Completed"
+                ${ticket.progress === 'Completed' ? 'selected' : ''}>
+                Completed
+              </option>
 
-          <button onclick="deleteTicket('${ticket.id}')">
-            Delete Ticket
-          </button>
+            </select>
+
+            <br><br>
+
+            <button onclick="deleteTicket('${ticket.id}')">
+              Delete Ticket
+            </button>
+
+          </div>
 
         </div>
 
