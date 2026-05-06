@@ -1,6 +1,8 @@
 const USERNAME = 'support';
 const PASSWORD = 'Pos2026!';
 
+/* ---------------- LOGIN ---------------- */
+
 function login() {
   const u = document.getElementById('email').value;
   const p = document.getElementById('password').value;
@@ -25,6 +27,8 @@ function checkLogin() {
   }
 }
 
+/* ---------------- STORAGE ---------------- */
+
 function getTickets() {
   return JSON.parse(localStorage.getItem('tickets')) || [];
 }
@@ -39,8 +43,6 @@ function createTicket(e) {
   e.preventDefault();
 
   const now = new Date().toLocaleString();
-
-  const t = getTickets();
 
   const ticket = {
     id: 'POS-' + Date.now(),
@@ -57,9 +59,12 @@ function createTicket(e) {
     completed: ''
   };
 
-  const first = notes.value;
-  if (first) ticket.notes.push(`${now} - ${first}`);
+  const firstNote = notes.value;
+  if (firstNote) {
+    ticket.notes.push(`${now} - ${firstNote}`);
+  }
 
+  const t = getTickets();
   t.push(ticket);
   saveTickets(t);
 
@@ -117,12 +122,11 @@ function updateStatus(id, val) {
 /* ---------------- DELETE ---------------- */
 
 function del(id) {
-  if (!confirm('Delete?')) return;
   saveTickets(getTickets().filter(x => x.id !== id));
   render();
 }
 
-/* ---------------- STATS ---------------- */
+/* ---------------- DASHBOARD ---------------- */
 
 function stats(t) {
   statAll.textContent = 'All: ' + t.length;
@@ -166,11 +170,13 @@ function render() {
       <div class="ticket priority-${x.priority}">
 
         <div class="ticket-summary" onclick="toggle('d-${x.id}')">
+
           <h3>${x.businessName}</h3>
           <p>${x.merchantId}</p>
           <p>${x.requester}</p>
           <p>${x.date}</p>
           <p><b>${x.progress}</b></p>
+
         </div>
 
         <div class="ticket-details" id="d-${x.id}">
