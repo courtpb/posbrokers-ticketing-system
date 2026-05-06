@@ -94,11 +94,15 @@ body {
 
   margin-bottom: 20px;
 
+  background: #fafafa;
+
 }
 
 .ticket h3 {
 
   margin-top: 0;
+
+  color: #0b2e59;
 
 }
 
@@ -121,6 +125,10 @@ select {
   box-sizing: border-box;
 
   font-size: 14px;
+
+  background: white;
+
+  color: black;
 
 }
 
@@ -146,11 +154,29 @@ button {
 
   font-size: 14px;
 
+  display: inline-block;
+
 }
 
 button:hover {
 
   background: #174b85;
+
+}
+
+.ticket button {
+
+  background: #c62828;
+
+  color: white;
+
+  font-weight: bold;
+
+}
+
+.ticket button:hover {
+
+  background: #e53935;
 
 }
 
@@ -177,5 +203,15 @@ button:hover {
   margin-bottom: 30px;
 
   text-align: center;
+
+}
+
+.edit-section {
+
+  border-top: 1px solid #ddd;
+
+  margin-top: 20px;
+
+  padding-top: 20px;
 
 }
