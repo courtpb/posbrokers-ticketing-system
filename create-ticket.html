@@ -1,62 +1,122 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
   <title>Create Ticket</title>
+
   <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body onload="checkLogin()">
 
-<div class="header">
-  <div class="logo">POS Brokers Ticketing</div>
+  <div class="header">
 
-  <div class="menu">
-    <a href="create-ticket.html">Create Ticket</a>
-    <a href="active-tickets.html">Active Tickets</a>
-    <a href="completed-tickets.html">Completed Tickets</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </div>
-</div>
+    <div class="logo">
+      POS Brokers Ticketing
+    </div>
 
-<div class="container">
-  <div class="card">
+    <div class="menu">
 
-    <h2>Create Ticket</h2>
+      <a href="create-ticket.html">
+        Create Ticket
+      </a>
 
-    <form id="ticketForm" onsubmit="createTicket(event)">
+      <a href="active-tickets.html">
+        Active Tickets
+      </a>
 
-      <label>Business Name</label>
-      <input type="text" id="businessName" required>
+      <a href="completed-tickets.html">
+        Completed Tickets
+      </a>
 
-      <label>Merchant ID</label>
-      <input type="text" id="merchantId">
+      <button onclick="logout()">
+        Logout
+      </button>
 
-      <label>Request</label>
-      <textarea id="request" required></textarea>
-
-      <label>Progress</label>
-      <select id="progress">
-        <option>New</option>
-        <option>In Progress</option>
-        <option>Completed</option>
-      </select>
-
-      <label>Date</label>
-      <input type="date" id="date">
-
-      <label>Requester Name</label>
-      <input type="text" id="requester">
-
-      <label>Notes</label>
-      <textarea id="notes"></textarea>
-
-      <button type="submit">Create Ticket</button>
-
-    </form>
+    </div>
 
   </div>
-</div>
 
-<script src="app.js"></script>
+  <div class="container">
+
+    <div class="card">
+
+      <h2>Create Ticket</h2>
+
+      <form id="ticketForm" onsubmit="createTicket(event)">
+
+        <label>Business Name</label>
+
+        <input
+          type="text"
+          id="businessName"
+          required
+        >
+
+        <label>Merchant ID</label>
+
+        <input
+          type="text"
+          id="merchantId"
+        >
+
+        <label>Request</label>
+
+        <textarea
+          id="request"
+          required
+        ></textarea>
+
+        <label>Status</label>
+
+        <select id="progress">
+
+          <option value="New">
+            New
+          </option>
+
+          <option value="In Progress">
+            In Progress
+          </option>
+
+          <option value="Completed">
+            Completed
+          </option>
+
+        </select>
+
+        <label>Date</label>
+
+        <input
+          type="date"
+          id="date"
+        >
+
+        <label>Requester Name</label>
+
+        <input
+          type="text"
+          id="requester"
+        >
+
+        <label>Notes</label>
+
+        <textarea id="notes"></textarea>
+
+        <button type="submit">
+          Create Ticket
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
 
 </body>
+
 </html>
