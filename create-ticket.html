@@ -19,21 +19,11 @@
 
     <div class="menu">
 
-      <a href="create-ticket.html">
-        Create Ticket
-      </a>
+      <a href="create-ticket.html">Create Ticket</a>
+      <a href="active-tickets.html">Active Tickets</a>
+      <a href="completed-tickets.html">Completed</a>
 
-      <a href="active-tickets.html">
-        Active Tickets
-      </a>
-
-      <a href="completed-tickets.html">
-        Completed Tickets
-      </a>
-
-      <button onclick="logout()">
-        Logout
-      </button>
+      <button onclick="logout()">Logout</button>
 
     </div>
 
@@ -45,69 +35,33 @@
 
       <h2>Create Ticket</h2>
 
-      <form id="ticketForm" onsubmit="createTicket(event)">
+      <form onsubmit="createTicket(event)">
 
-        <label>Business Name</label>
+        <input id="businessName" placeholder="Business Name" required>
 
-        <input
-          type="text"
-          id="businessName"
-          required
-        >
+        <input id="merchantId" placeholder="Merchant ID">
 
-        <label>Merchant ID</label>
+        <input id="requester" placeholder="Requester Name">
 
-        <input
-          type="text"
-          id="merchantId"
-        >
-
-        <label>Request</label>
-
-        <textarea
-          id="request"
-          required
-        ></textarea>
-
-        <label>Status</label>
+        <input id="date" type="date">
 
         <select id="progress">
-
-          <option value="New">
-            New
-          </option>
-
-          <option value="In Progress">
-            In Progress
-          </option>
-
-          <option value="Completed">
-            Completed
-          </option>
-
+          <option>New</option>
+          <option>In Progress</option>
+          <option>Completed</option>
         </select>
 
-        <label>Date</label>
+        <select id="priority">
+          <option value="low">Low Priority</option>
+          <option value="medium">Medium Priority</option>
+          <option value="high">High Priority</option>
+        </select>
 
-        <input
-          type="date"
-          id="date"
-        >
+        <textarea id="request" placeholder="Request Details" required></textarea>
 
-        <label>Requester Name</label>
+        <textarea id="notes" placeholder="Initial Note (optional)"></textarea>
 
-        <input
-          type="text"
-          id="requester"
-        >
-
-        <label>Notes</label>
-
-        <textarea id="notes"></textarea>
-
-        <button type="submit">
-          Create Ticket
-        </button>
+        <button type="submit">Create Ticket</button>
 
       </form>
 
