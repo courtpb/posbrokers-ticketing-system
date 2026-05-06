@@ -44,7 +44,7 @@ function createTicket(e) {
   const now = new Date().toLocaleString();
 
   const ticket = {
-    id: Date.now(),
+    id: String(Date.now()),
     businessName: businessName.value,
     merchantId: merchantId.value,
     requester: requester.value,
@@ -59,7 +59,9 @@ function createTicket(e) {
   };
 
   const firstNote = notes.value;
-  if (firstNote) ticket.notes.push(`${now} - ${firstNote}`);
+  if (firstNote) {
+    ticket.notes.push(now + " - " + firstNote);
+  }
 
   const t = getTickets();
   t.push(ticket);
@@ -72,28 +74,38 @@ function createTicket(e) {
 
 function toggle(id) {
   const el = document.getElementById(id);
+  if (!el) return;
   el.style.display = el.style.display === "block" ? "none" : "block";
 }
 
-/* ---------------- ADD NOTE ---------------- */
+/* ---------------- ADD NOTE (FIXED) ---------------- */
 
 function addNote(id) {
+
   const input = document.getElementById("note-" + id);
+  if (!input) return;
+
   const text = input.value.trim();
   if (!text) return;
 
   const now = new Date().toLocaleString();
 
-  const t = getTickets();
+  const tickets = getTickets();
 
-  t.forEach(x => {
-    if (x.id === id) {
-      x.notes.push(`${now} - ${text}`);
-      x.updated = now;
+  tickets.forEach(t => {
+    if (String(t.id) === String(id)) {
+
+      if (!Array.isArray(t.notes)) {
+        t.notes = [];
+      }
+
+      t.notes.push(now + " - " + text);
+      t.updated = now;
     }
   });
 
-  saveTickets(t);
+  saveTickets(tickets);
+
   render();
 }
 
@@ -105,7 +117,7 @@ function updateStatus(id, val) {
   const t = getTickets();
 
   t.forEach(x => {
-    if (x.id === id) {
+    if (String(x.id) === String(id)) {
       x.progress = val;
       x.updated = now;
       if (val === "Completed") x.completed = now;
@@ -119,8 +131,7 @@ function updateStatus(id, val) {
 /* ---------------- DELETE ---------------- */
 
 function del(id) {
-  if (!confirm("Delete ticket?")) return;
-  saveTickets(getTickets().filter(x => x.id !== id));
+  saveTickets(getTickets().filter(x => String(x.id) !== String(id)));
   render();
 }
 
@@ -161,14 +172,12 @@ function render() {
 
   box.innerHTML = "";
 
-  if (t.length === 0) {
-    box.innerHTML = "<p>No tickets found</p>";
-    return;
-  }
-
   t.reverse().forEach(x => {
 
-    const notes = (x.notes || []).map(n => `<div class="note">${n}</div>`).join("");
+    let notes = "";
+    if (Array.isArray(x.notes)) {
+      notes = x.notes.map(n => `<div class="note">${n}</div>`).join("");
+    }
 
     box.innerHTML += `
       <div class="ticket priority-${x.priority}">
@@ -190,7 +199,7 @@ function render() {
           ${notes}
 
           <textarea id="note-${x.id}"></textarea>
-          <button onclick="addNote(${x.id})">Add Note</button>
+          <button onclick="addNote('${x.id}')">Add Note</button>
 
           <hr>
 
@@ -198,7 +207,7 @@ function render() {
           <p>Updated: ${x.updated}</p>
           <p>Completed: ${x.completed || "No"}</p>
 
-          <select onchange="updateStatus(${x.id}, this.value)">
+          <select onchange="updateStatus('${x.id}', this.value)">
             <option ${x.progress==="New"?"selected":""}>New</option>
             <option ${x.progress==="In Progress"?"selected":""}>In Progress</option>
             <option ${x.progress==="Completed"?"selected":""}>Completed</option>
@@ -206,7 +215,7 @@ function render() {
 
           <br><br>
 
-          <button onclick="del(${x.id})">Delete</button>
+          <button onclick="del('${x.id}')">Delete</button>
 
         </div>
 
