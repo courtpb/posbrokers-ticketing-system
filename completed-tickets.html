@@ -1,48 +1,73 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
   <title>Completed Tickets</title>
+
   <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body onload="checkLogin(); loadTickets(['Completed'], 'completedContainer')">
 
-<div class="header">
-  <div class="logo">POS Brokers Ticketing</div>
+  <div class="header">
 
-  <div class="menu">
-    <a href="create-ticket.html">Create Ticket</a>
-    <a href="active-tickets.html">Active Tickets</a>
-    <a href="completed-tickets.html">Completed Tickets</a>
-    <a href="#" onclick="logout()">Logout</a>
+    <div class="logo">
+      POS Brokers Ticketing
+    </div>
+
+    <div class="menu">
+
+      <a href="create-ticket.html">
+        Create Ticket
+      </a>
+
+      <a href="active-tickets.html">
+        Active Tickets
+      </a>
+
+      <a href="completed-tickets.html">
+        Completed Tickets
+      </a>
+
+      <button onclick="logout()">
+        Logout
+      </button>
+
+    </div>
+
   </div>
-</div>
 
-<div class="container">
-  <div class="card">
+  <div class="container">
 
-    <h2>Completed Tickets</h2>
+    <div class="card">
 
-    <div class="search-box">
+      <h2>Completed Tickets</h2>
+
       <input
         type="text"
         id="searchCompleted"
-        placeholder="Search completed tickets..."
+        placeholder="Search Completed Tickets"
         onkeyup="searchTickets('searchCompleted', 'completedContainer')"
       >
+
+      <br><br>
+
+      <button onclick="exportCSV()">
+        Export CSV
+      </button>
+
+      <br><br>
+
+      <div id="completedContainer"></div>
+
     </div>
 
-    <button onclick="exportCSV()">
-      Export CSV
-    </button>
-
-    <br><br>
-
-    <div id="completedContainer"></div>
-
   </div>
-</div>
 
-<script src="app.js"></script>
+  <script src="app.js"></script>
 
 </body>
+
 </html>
