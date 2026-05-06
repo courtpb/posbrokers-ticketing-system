@@ -112,3 +112,43 @@ textarea {
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.filters input,
+.filters select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat-box {
+  flex: 1;
+  background: #0b2e59;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.priority-low {
+  border-left: 6px solid #4caf50;
+}
+
+.priority-medium {
+  border-left: 6px solid #ff9800;
+}
+
+.priority-high {
+  border-left: 6px solid #f44336;
+}
