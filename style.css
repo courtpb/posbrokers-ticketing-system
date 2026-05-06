@@ -7,14 +7,15 @@ body {
 .header {
   background: #0b2e59;
   color: white;
-  padding: 18px;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  font-size: 20px;
   font-weight: bold;
+  font-size: 18px;
 }
 
 .menu {
@@ -46,7 +47,7 @@ body {
 .stats {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .stat {
@@ -61,7 +62,7 @@ body {
 .filters {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 input, select, textarea {
@@ -73,22 +74,18 @@ input, select, textarea {
 
 .ticket {
   border: 1px solid #ddd;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   border-radius: 8px;
 }
 
 .ticket-summary {
-  padding: 15px;
+  padding: 12px;
   cursor: pointer;
-}
-
-.ticket-summary:hover {
-  background: #eef3fb;
 }
 
 .ticket-details {
   display: none;
-  padding: 15px;
+  padding: 12px;
   background: #fafafa;
 }
 
