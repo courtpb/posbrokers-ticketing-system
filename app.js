@@ -37,7 +37,7 @@ function saveTickets(t) {
   localStorage.setItem('tickets', JSON.stringify(t));
 }
 
-/* ---------------- CREATE ---------------- */
+/* ---------------- CREATE TICKET (FIXED) ---------------- */
 
 function createTicket(e) {
   e.preventDefault();
@@ -46,20 +46,25 @@ function createTicket(e) {
 
   const ticket = {
     id: 'POS-' + Date.now(),
-    businessName: businessName.value,
-    merchantId: merchantId.value,
-    request: request.value,
-    progress: progress.value,
-    date: date.value,
-    requester: requester.value,
-    priority: priority?.value || 'low',
+
+    businessName: document.getElementById('businessName').value,
+    merchantId: document.getElementById('merchantId').value,
+    requester: document.getElementById('requester').value,
+    date: document.getElementById('date').value,
+
+    progress: document.getElementById('progress').value,
+    priority: document.getElementById('priority').value,
+
+    request: document.getElementById('request').value,
+
     notes: [],
+
     created: now,
     updated: now,
     completed: ''
   };
 
-  const firstNote = notes.value;
+  const firstNote = document.getElementById('notes').value;
   if (firstNote) {
     ticket.notes.push(`${now} - ${firstNote}`);
   }
@@ -68,13 +73,14 @@ function createTicket(e) {
   t.push(ticket);
   saveTickets(t);
 
-  location.href = 'active-tickets.html';
+  window.location.href = 'active-tickets.html';
 }
 
 /* ---------------- TOGGLE ---------------- */
 
 function toggle(id) {
   const el = document.getElementById(id);
+  if (!el) return;
   el.style.display = el.style.display === 'block' ? 'none' : 'block';
 }
 
@@ -122,11 +128,12 @@ function updateStatus(id, val) {
 /* ---------------- DELETE ---------------- */
 
 function del(id) {
+  if (!confirm('Delete ticket?')) return;
   saveTickets(getTickets().filter(x => x.id !== id));
   render();
 }
 
-/* ---------------- DASHBOARD ---------------- */
+/* ---------------- STATS ---------------- */
 
 function stats(t) {
   statAll.textContent = 'All: ' + t.length;
@@ -164,7 +171,7 @@ function render() {
 
   t.reverse().forEach(x => {
 
-    const notes = x.notes.map(n => `<div class="note">${n}</div>`).join('');
+    const notes = (x.notes || []).map(n => `<div class="note">${n}</div>`).join('');
 
     box.innerHTML += `
       <div class="ticket priority-${x.priority}">
@@ -203,6 +210,7 @@ function render() {
           </select>
 
           <br><br>
+
           <button onclick="del('${x.id}')">Delete</button>
 
         </div>
