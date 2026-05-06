@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #f4f6f9;
 }
 
@@ -10,7 +10,6 @@ body {
   padding: 18px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .logo {
@@ -21,23 +20,15 @@ body {
 .menu {
   display: flex;
   gap: 10px;
-  align-items: center;
 }
 
-.menu a {
-  text-decoration: none;
-  color: white;
+.menu a, button {
   background: #1f4f8b;
+  color: white;
   padding: 8px 12px;
-  border-radius: 6px;
-}
-
-button {
-  background: #1f4f8b;
-  color: white;
   border: none;
-  padding: 8px 12px;
   border-radius: 6px;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -74,17 +65,16 @@ button {
 }
 
 input, select, textarea {
+  width: 100%;
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  width: 100%;
 }
 
 .ticket {
   border: 1px solid #ddd;
-  border-radius: 8px;
   margin-bottom: 15px;
-  overflow: hidden;
+  border-radius: 8px;
 }
 
 .ticket-summary {
