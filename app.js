@@ -24,7 +24,11 @@ function logout() {
 
   localStorage.removeItem('loggedIn');
 
-  window.location.href = 'index.html';
+  sessionStorage.clear();
+
+  alert('Logged Out Successfully');
+
+  window.location.replace('index.html');
 
 }
 
@@ -92,8 +96,6 @@ function createTicket(event) {
 
   saveTickets(tickets);
 
-  console.log('TICKET SAVED:', ticket);
-
   alert('Ticket Created Successfully');
 
   document.getElementById('ticketForm').reset();
@@ -106,25 +108,15 @@ function loadTickets(statuses, containerId) {
 
   const tickets = getTickets();
 
-  console.log('ALL TICKETS:', tickets);
-
   const container = document.getElementById(containerId);
 
-  if (!container) {
-
-    console.error('Container not found:', containerId);
-
-    return;
-
-  }
+  if (!container) return;
 
   container.innerHTML = '';
 
   const filteredTickets = tickets.filter(ticket =>
     statuses.includes(ticket.progress)
   );
-
-  console.log('FILTERED TICKETS:', filteredTickets);
 
   if (filteredTickets.length === 0) {
 
@@ -145,6 +137,7 @@ function loadTickets(statuses, containerId) {
     .forEach(ticket => {
 
       container.innerHTML += `
+
         <div class="ticket">
 
           <h3>${ticket.id}</h3>
@@ -159,15 +152,23 @@ function loadTickets(statuses, containerId) {
 
           <p><strong>Status:</strong> ${ticket.progress}</p>
 
-          <p><strong>Request:</strong></p>
-
-          <p>${ticket.request}</p>
-
-          <p><strong>Notes:</strong></p>
-
-          <p>${ticket.notes}</p>
-
           <hr>
+
+          <div class="edit-section">
+
+            <label><strong>Request</strong></label>
+
+            <textarea onchange="updateField('${ticket.id}', 'request', this.value)">
+${ticket.request}
+            </textarea>
+
+            <label><strong>Notes</strong></label>
+
+            <textarea onchange="updateField('${ticket.id}', 'notes', this.value)">
+${ticket.notes}
+            </textarea>
+
+          </div>
 
           <p><strong>Date Created:</strong> ${ticket.createdDate}</p>
 
@@ -195,13 +196,14 @@ function loadTickets(statuses, containerId) {
 
           </select>
 
-          <br><br>
+          <br>
 
           <button onclick="deleteTicket('${ticket.id}')">
             Delete Ticket
           </button>
 
         </div>
+
       `;
 
     });
@@ -235,6 +237,34 @@ function updateStatus(id, newStatus) {
   saveTickets(updatedTickets);
 
   location.reload();
+
+}
+
+function updateField(id, field, value) {
+
+  const tickets = getTickets();
+
+  const updatedTickets = tickets.map(ticket => {
+
+    if (ticket.id === id) {
+
+      ticket[field] = value;
+
+      ticket.lastUpdated = new Date().toLocaleString();
+
+      if (field === 'notes') {
+
+        ticket.notesUpdatedDate = new Date().toLocaleString();
+
+      }
+
+    }
+
+    return ticket;
+
+  });
+
+  saveTickets(updatedTickets);
 
 }
 
