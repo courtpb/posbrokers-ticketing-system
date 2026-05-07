@@ -1,23 +1,30 @@
 const USERNAME = "admin@posbrokers.com";
 const PASSWORD = "Court@go23";
 
-/* LOGIN */
-
 function login() {
 
-  const u = document.getElementById("email").value;
-  const p = document.getElementById("password").value;
+  const u =
+    document.getElementById("email").value;
 
-  if (u === USERNAME && p === PASSWORD) {
+  const p =
+    document.getElementById("password").value;
 
-    localStorage.setItem("auth", "true");
+  if (
+    u === USERNAME &&
+    p === PASSWORD
+  ) {
 
-    window.location.href = "active-tickets.html";
+    localStorage.setItem(
+      "auth",
+      "true"
+    );
+
+    window.location.href =
+      "active-tickets.html";
 
   } else {
 
     alert("Invalid login");
-
   }
 }
 
@@ -25,70 +32,92 @@ function logout() {
 
   localStorage.removeItem("auth");
 
-  window.location.href = "index.html";
+  window.location.href =
+    "index.html";
 }
 
 function checkLogin() {
 
-  if (localStorage.getItem("auth") !== "true") {
+  if (
+    localStorage.getItem("auth")
+    !== "true"
+  ) {
 
-    window.location.href = "index.html";
-
+    window.location.href =
+      "index.html";
   }
 }
 
-/* STORAGE */
-
 function getTickets() {
 
-  return JSON.parse(localStorage.getItem("tickets")) || [];
-
+  return JSON.parse(
+    localStorage.getItem("tickets")
+  ) || [];
 }
 
 function saveTickets(t) {
 
-  localStorage.setItem("tickets", JSON.stringify(t));
-
+  localStorage.setItem(
+    "tickets",
+    JSON.stringify(t)
+  );
 }
-
-/* CREATE TICKET */
 
 function createTicket(e) {
 
   e.preventDefault();
 
-  const now = new Date().toLocaleString();
+  const now =
+    new Date().toLocaleString();
 
   const ticket = {
 
     id: String(Date.now()),
 
     businessName:
-      document.getElementById("businessName").value,
+      document.getElementById(
+        "businessName"
+      ).value,
 
     merchantId:
-      document.getElementById("merchantId").value,
+      document.getElementById(
+        "merchantId"
+      ).value,
 
     requester:
-      document.getElementById("requester").value,
+      document.getElementById(
+        "requester"
+      ).value,
 
     date:
-      document.getElementById("date").value,
+      document.getElementById(
+        "date"
+      ).value,
 
     ticketType:
-      document.getElementById("ticketType").value,
+      document.getElementById(
+        "ticketType"
+      ).value,
 
     assignedTo:
-      document.getElementById("assignedTo").value,
+      document.getElementById(
+        "assignedTo"
+      ).value,
 
     request:
-      document.getElementById("request").value,
+      document.getElementById(
+        "request"
+      ).value,
 
     progress:
-      document.getElementById("progress").value,
+      document.getElementById(
+        "progress"
+      ).value,
 
     priority:
-      document.getElementById("priority").value,
+      document.getElementById(
+        "priority"
+      ).value,
 
     notes: [],
 
@@ -101,16 +130,22 @@ function createTicket(e) {
   };
 
   const firstNote =
-    document.getElementById("notes").value;
+    document.getElementById(
+      "notes"
+    ).value;
 
-  if (firstNote && firstNote.trim() !== "") {
+  if (
+    firstNote &&
+    firstNote.trim() !== ""
+  ) {
 
     ticket.notes.push(
       now + " - " + firstNote
     );
   }
 
-  const tickets = getTickets();
+  const tickets =
+    getTickets();
 
   tickets.push(ticket);
 
@@ -119,8 +154,6 @@ function createTicket(e) {
   window.location.href =
     "active-tickets.html";
 }
-
-/* TOGGLE */
 
 function toggle(id) {
 
@@ -135,12 +168,12 @@ function toggle(id) {
       : "block";
 }
 
-/* ADD NOTE */
-
 function addNote(id) {
 
   const input =
-    document.getElementById("note-" + id);
+    document.getElementById(
+      "note-" + id
+    );
 
   if (!input) return;
 
@@ -149,20 +182,17 @@ function addNote(id) {
 
   if (!text) return;
 
-  const now =
-    new Date().toLocaleString();
-
   const tickets =
     getTickets();
 
+  const now =
+    new Date().toLocaleString();
+
   tickets.forEach(t => {
 
-    if (String(t.id) === String(id)) {
-
-      if (!Array.isArray(t.notes)) {
-
-        t.notes = [];
-      }
+    if (
+      String(t.id) === String(id)
+    ) {
 
       t.notes.push(
         now + " - " + text
@@ -177,25 +207,27 @@ function addNote(id) {
   render();
 }
 
-/* UPDATE STATUS */
-
 function updateStatus(id, val) {
-
-  const now =
-    new Date().toLocaleString();
 
   const tickets =
     getTickets();
 
+  const now =
+    new Date().toLocaleString();
+
   tickets.forEach(t => {
 
-    if (String(t.id) === String(id)) {
+    if (
+      String(t.id) === String(id)
+    ) {
 
       t.progress = val;
 
       t.updated = now;
 
-      if (val === "Completed") {
+      if (
+        val === "Completed"
+      ) {
 
         t.completed = now;
       }
@@ -207,19 +239,19 @@ function updateStatus(id, val) {
   render();
 }
 
-/* UPDATE ASSIGNED */
-
 function updateAssigned(id, val) {
-
-  const now =
-    new Date().toLocaleString();
 
   const tickets =
     getTickets();
 
+  const now =
+    new Date().toLocaleString();
+
   tickets.forEach(t => {
 
-    if (String(t.id) === String(id)) {
+    if (
+      String(t.id) === String(id)
+    ) {
 
       t.assignedTo = val;
 
@@ -232,13 +264,12 @@ function updateAssigned(id, val) {
   render();
 }
 
-/* DELETE */
-
 function del(id) {
 
   const updated =
     getTickets().filter(
-      t => String(t.id) !== String(id)
+      t => String(t.id)
+      !== String(id)
     );
 
   saveTickets(updated);
@@ -246,40 +277,13 @@ function del(id) {
   render();
 }
 
-/* STATS */
-
-function stats(t) {
-
-  statAll.textContent =
-    "All: " + t.length;
-
-  statNew.textContent =
-    "New: " +
-    t.filter(
-      x => x.progress === "New"
-    ).length;
-
-  statProg.textContent =
-    "In Progress: " +
-    t.filter(
-      x => x.progress === "In Progress"
-    ).length;
-
-  statDone.textContent =
-    "Completed: " +
-    t.filter(
-      x => x.progress === "Completed"
-    ).length;
-}
-
-/* EXPORT EXTERNAL TICKETS */
-
 function exportTickets() {
 
-  // ONLY EXTERNAL
   const tickets =
     getTickets().filter(
-      t => t.ticketType === "External"
+      t =>
+        t.ticketType ===
+        "External"
     );
 
   if (tickets.length === 0) {
@@ -299,63 +303,39 @@ function exportTickets() {
     "Assigned To",
     "Date",
     "Status",
-    "Priority",
-    "Request",
-    "Notes",
-    "Created",
-    "Updated",
-    "Completed"
+    "Priority"
 
   ];
 
   const rows =
     tickets.map(t => [
 
-      t.businessName || "",
-      t.merchantId || "",
-      t.requester || "",
-      t.assignedTo || "",
-      t.date || "",
-      t.progress || "",
-      t.priority || "",
-      t.request || "",
-
-      Array.isArray(t.notes)
-        ? t.notes.join(" | ")
-        : "",
-
-      t.created || "",
-      t.updated || "",
-      t.completed || ""
+      t.businessName,
+      t.merchantId,
+      t.requester,
+      t.assignedTo,
+      t.date,
+      t.progress,
+      t.priority
 
     ]);
 
-  let csvContent = "";
-
-  csvContent +=
+  let csv =
     headers.join(",") + "\n";
 
   rows.forEach(r => {
 
-    const row =
+    csv +=
       r.map(x =>
-
-        `"${String(x).replace(/"/g, '""')}"`
-
-      );
-
-    csvContent +=
-      row.join(",") + "\n";
+        `"${x}"`
+      ).join(",") + "\n";
   });
 
   const blob =
-    new Blob(
-      [csvContent],
-      {
-        type:
-          "text/csv;charset=utf-8;"
-      }
-    );
+    new Blob([csv], {
+      type:
+        "text/csv;charset=utf-8;"
+    });
 
   const link =
     document.createElement("a");
@@ -369,8 +349,6 @@ function exportTickets() {
   link.click();
 }
 
-/* RENDER */
-
 function render() {
 
   const box =
@@ -383,25 +361,28 @@ function render() {
   let tickets =
     getTickets();
 
-  const s =
+  const search =
     (
-      document.getElementById("search")
-        ?.value || ""
+      document.getElementById(
+        "search"
+      )?.value || ""
     ).toLowerCase();
 
-  const f =
-    document.getElementById("filter")
-      ?.value || "All";
+  const filter =
+    document.getElementById(
+      "filter"
+    )?.value || "All";
 
-  if (f !== "All") {
+  if (filter !== "All") {
 
     tickets =
       tickets.filter(
-        t => t.progress === f
+        t =>
+          t.progress === filter
       );
   }
 
-  if (s) {
+  if (search) {
 
     tickets =
       tickets.filter(t =>
@@ -410,48 +391,60 @@ function render() {
           t.businessName +
           t.merchantId +
           t.requester +
-          t.assignedTo +
-          t.ticketType +
-          (t.notes || []).join(" ")
-
+          t.assignedTo
         )
           .toLowerCase()
-          .includes(s)
+          .includes(search)
       );
   }
 
-  stats(getTickets());
+  document.getElementById(
+    "statAll"
+  ).textContent =
+    "All: " + getTickets().length;
+
+  document.getElementById(
+    "statNew"
+  ).textContent =
+    "New: " +
+    getTickets().filter(
+      t => t.progress === "New"
+    ).length;
+
+  document.getElementById(
+    "statProg"
+  ).textContent =
+    "In Progress: " +
+    getTickets().filter(
+      t =>
+        t.progress ===
+        "In Progress"
+    ).length;
+
+  document.getElementById(
+    "statDone"
+  ).textContent =
+    "Completed: " +
+    getTickets().filter(
+      t =>
+        t.progress ===
+        "Completed"
+    ).length;
 
   box.innerHTML = "";
 
   tickets.reverse().forEach(t => {
 
-    let notesHTML = "";
-
-    if (
-      Array.isArray(t.notes) &&
+    const notes =
       t.notes.length > 0
-    ) {
-
-      notesHTML =
-        t.notes
-          .map(
-            n =>
-              `<div class="note">${n}</div>`
-          )
-          .join("");
-
-    } else {
-
-      notesHTML =
-        `<div class="note">
-          No notes yet
-        </div>`;
-    }
+        ? t.notes.map(n =>
+            `<div class="note">${n}</div>`
+          ).join("")
+        : "<div>No notes yet</div>";
 
     box.innerHTML += `
 
-      <div class="ticket priority-${t.priority}">
+      <div class="ticket">
 
         <div
           class="ticket-summary"
@@ -464,15 +457,12 @@ function render() {
 
           ${t.requester}<br>
 
-          Type:
-          <b>${t.ticketType}</b><br>
+          ${t.ticketType}<br>
 
           Assigned:
           <b>${t.assignedTo}</b><br>
 
-          ${t.date}<br>
-
-          <b>${t.progress}</b>
+          ${t.progress}
 
         </div>
 
@@ -485,7 +475,7 @@ function render() {
 
           <hr>
 
-          ${notesHTML}
+          ${notes}
 
           <textarea
             id="note-${t.id}"
@@ -500,10 +490,10 @@ function render() {
             Add Note
           </button>
 
-          <hr>
+          <br><br>
 
           <label>
-            <b>Assigned To:</b>
+            Assign:
           </label>
 
           <select
@@ -542,21 +532,6 @@ function render() {
           </select>
 
           <br><br>
-
-          <p>
-            Created:
-            ${t.created}
-          </p>
-
-          <p>
-            Updated:
-            ${t.updated}
-          </p>
-
-          <p>
-            Completed:
-            ${t.completed || "No"}
-          </p>
 
           <select
             onchange="
