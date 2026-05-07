@@ -3,7 +3,11 @@
 
 <head>
   <title>Create Ticket</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
 
 <body onload="checkLogin()">
@@ -15,9 +19,19 @@
   </div>
 
   <div class="menu">
-    <a href="create-ticket.html">Create Ticket</a>
-    <a href="active-tickets.html">Active Tickets</a>
-    <button onclick="logout()">Logout</button>
+
+    <a href="create-ticket.html">
+      Create Ticket
+    </a>
+
+    <a href="active-tickets.html">
+      Active Tickets
+    </a>
+
+    <button onclick="logout()">
+      Logout
+    </button>
+
   </div>
 
 </div>
@@ -30,6 +44,8 @@
 
     <form onsubmit="createTicket(event)">
 
+      <!-- BUSINESS NAME -->
+
       <input
         id="businessName"
         placeholder="Business Name"
@@ -38,12 +54,16 @@
 
       <br><br>
 
+      <!-- MERCHANT ID -->
+
       <input
         id="merchantId"
         placeholder="Merchant ID"
       >
 
       <br><br>
+
+      <!-- REQUESTER -->
 
       <input
         id="requester"
@@ -52,6 +72,8 @@
 
       <br><br>
 
+      <!-- DATE -->
+
       <input
         id="date"
         type="date"
@@ -59,23 +81,31 @@
 
       <br><br>
 
+      <!-- TICKET TYPE -->
+
       <label>
         <b>Ticket Type</b>
       </label>
 
       <select id="ticketType">
 
-        <option value="Internal">
-          Internal
+        <option value="Unassigned">
+          Unassigned
         </option>
 
         <option value="External">
           External
         </option>
 
+        <option value="Internal">
+          Internal
+        </option>
+
       </select>
 
       <br><br>
+
+      <!-- ASSIGNED TO -->
 
       <label>
         <b>Assign Ticket To</b>
@@ -103,15 +133,27 @@
 
       <br><br>
 
+      <!-- STATUS -->
+
       <select id="progress">
 
-        <option>New</option>
-        <option>In Progress</option>
-        <option>Completed</option>
+        <option>
+          New
+        </option>
+
+        <option>
+          In Progress
+        </option>
+
+        <option>
+          Completed
+        </option>
 
       </select>
 
       <br><br>
+
+      <!-- PRIORITY -->
 
       <select id="priority">
 
@@ -131,6 +173,8 @@
 
       <br><br>
 
+      <!-- REQUEST -->
+
       <textarea
         id="request"
         placeholder="Request Details"
@@ -138,12 +182,16 @@
 
       <br><br>
 
+      <!-- NOTES -->
+
       <textarea
         id="notes"
         placeholder="Initial Note"
       ></textarea>
 
       <br><br>
+
+      <!-- BUTTON -->
 
       <button type="submit">
         Create Ticket
