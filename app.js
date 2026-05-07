@@ -1,6 +1,8 @@
 const USERNAME = "admin@posbrokers.com";
 const PASSWORD = "Court@go23";
 
+/* LOGIN */
+
 function login() {
 
   const u =
@@ -48,6 +50,8 @@ function checkLogin() {
   }
 }
 
+/* STORAGE */
+
 function getTickets() {
 
   return JSON.parse(
@@ -62,6 +66,8 @@ function saveTickets(t) {
     JSON.stringify(t)
   );
 }
+
+/* CREATE */
 
 function createTicket(e) {
 
@@ -155,6 +161,8 @@ function createTicket(e) {
     "active-tickets.html";
 }
 
+/* TOGGLE */
+
 function toggle(id) {
 
   const el =
@@ -167,6 +175,8 @@ function toggle(id) {
       ? "none"
       : "block";
 }
+
+/* NOTES */
 
 function addNote(id) {
 
@@ -207,6 +217,8 @@ function addNote(id) {
   render();
 }
 
+/* STATUS */
+
 function updateStatus(id, val) {
 
   const tickets =
@@ -239,6 +251,8 @@ function updateStatus(id, val) {
   render();
 }
 
+/* ASSIGNED */
+
 function updateAssigned(id, val) {
 
   const tickets =
@@ -264,12 +278,15 @@ function updateAssigned(id, val) {
   render();
 }
 
+/* DELETE */
+
 function del(id) {
 
   const updated =
     getTickets().filter(
-      t => String(t.id)
-      !== String(id)
+      t =>
+        String(t.id)
+        !== String(id)
     );
 
   saveTickets(updated);
@@ -277,19 +294,17 @@ function del(id) {
   render();
 }
 
+/* EXPORT */
+
 function exportTickets() {
 
   const tickets =
-    getTickets().filter(
-      t =>
-        t.ticketType ===
-        "External"
-    );
+    getTickets();
 
   if (tickets.length === 0) {
 
     alert(
-      "No external tickets to export"
+      "No tickets to export"
     );
 
     return;
@@ -300,23 +315,39 @@ function exportTickets() {
     "Business Name",
     "Merchant ID",
     "Requester",
+    "Ticket Type",
     "Assigned To",
     "Date",
     "Status",
-    "Priority"
+    "Priority",
+    "Request",
+    "Notes",
+    "Created",
+    "Updated",
+    "Completed"
 
   ];
 
   const rows =
     tickets.map(t => [
 
-      t.businessName,
-      t.merchantId,
-      t.requester,
-      t.assignedTo,
-      t.date,
-      t.progress,
-      t.priority
+      t.businessName || "",
+      t.merchantId || "",
+      t.requester || "",
+      t.ticketType || "",
+      t.assignedTo || "",
+      t.date || "",
+      t.progress || "",
+      t.priority || "",
+      t.request || "",
+
+      Array.isArray(t.notes)
+        ? t.notes.join(" | ")
+        : "",
+
+      t.created || "",
+      t.updated || "",
+      t.completed || ""
 
     ]);
 
@@ -327,15 +358,20 @@ function exportTickets() {
 
     csv +=
       r.map(x =>
-        `"${x}"`
+
+        `"${String(x).replace(/"/g, '""')}"`
+
       ).join(",") + "\n";
   });
 
   const blob =
-    new Blob([csv], {
-      type:
-        "text/csv;charset=utf-8;"
-    });
+    new Blob(
+      [csv],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
 
   const link =
     document.createElement("a");
@@ -344,10 +380,12 @@ function exportTickets() {
     URL.createObjectURL(blob);
 
   link.download =
-    "external-tickets.csv";
+    "all-tickets.csv";
 
   link.click();
 }
+
+/* RENDER */
 
 function render() {
 
@@ -391,7 +429,8 @@ function render() {
           t.businessName +
           t.merchantId +
           t.requester +
-          t.assignedTo
+          t.assignedTo +
+          t.ticketType
         )
           .toLowerCase()
           .includes(search)
@@ -401,7 +440,8 @@ function render() {
   document.getElementById(
     "statAll"
   ).textContent =
-    "All: " + getTickets().length;
+    "All: " +
+    getTickets().length;
 
   document.getElementById(
     "statNew"
