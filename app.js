@@ -67,7 +67,7 @@ function saveTickets(t) {
   );
 }
 
-/* CREATE */
+/* CREATE TICKET */
 
 function createTicket(e) {
 
@@ -161,7 +161,7 @@ function createTicket(e) {
     "active-tickets.html";
 }
 
-/* TOGGLE */
+/* TOGGLE DETAILS */
 
 function toggle(id) {
 
@@ -176,7 +176,7 @@ function toggle(id) {
       : "block";
 }
 
-/* NOTES */
+/* ADD NOTE */
 
 function addNote(id) {
 
@@ -217,7 +217,7 @@ function addNote(id) {
   render();
 }
 
-/* STATUS */
+/* UPDATE STATUS */
 
 function updateStatus(id, val) {
 
@@ -251,7 +251,7 @@ function updateStatus(id, val) {
   render();
 }
 
-/* ASSIGNED */
+/* UPDATE ASSIGNED */
 
 function updateAssigned(id, val) {
 
@@ -294,7 +294,7 @@ function del(id) {
   render();
 }
 
-/* EXPORT */
+/* EXPORT ALL TICKETS */
 
 function exportTickets() {
 
