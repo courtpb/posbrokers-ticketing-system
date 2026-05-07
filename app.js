@@ -63,21 +63,32 @@ function createTicket(e) {
 
     id: String(Date.now()),
 
-    businessName: document.getElementById("businessName").value,
+    businessName:
+      document.getElementById("businessName").value,
 
-    merchantId: document.getElementById("merchantId").value,
+    merchantId:
+      document.getElementById("merchantId").value,
 
-    requester: document.getElementById("requester").value,
+    requester:
+      document.getElementById("requester").value,
 
-    date: document.getElementById("date").value,
+    date:
+      document.getElementById("date").value,
 
-    assignedTo: document.getElementById("assignedTo").value,
+    ticketType:
+      document.getElementById("ticketType").value,
 
-    request: document.getElementById("request").value,
+    assignedTo:
+      document.getElementById("assignedTo").value,
 
-    progress: document.getElementById("progress").value,
+    request:
+      document.getElementById("request").value,
 
-    priority: document.getElementById("priority").value,
+    progress:
+      document.getElementById("progress").value,
+
+    priority:
+      document.getElementById("priority").value,
 
     notes: [],
 
@@ -89,12 +100,14 @@ function createTicket(e) {
 
   };
 
-  const firstNote = document.getElementById("notes").value;
+  const firstNote =
+    document.getElementById("notes").value;
 
   if (firstNote && firstNote.trim() !== "") {
 
-    ticket.notes.push(now + " - " + firstNote);
-
+    ticket.notes.push(
+      now + " - " + firstNote
+    );
   }
 
   const tickets = getTickets();
@@ -103,14 +116,16 @@ function createTicket(e) {
 
   saveTickets(tickets);
 
-  window.location.href = "active-tickets.html";
+  window.location.href =
+    "active-tickets.html";
 }
 
 /* TOGGLE */
 
 function toggle(id) {
 
-  const el = document.getElementById(id);
+  const el =
+    document.getElementById(id);
 
   if (!el) return;
 
@@ -129,13 +144,16 @@ function addNote(id) {
 
   if (!input) return;
 
-  const text = input.value.trim();
+  const text =
+    input.value.trim();
 
   if (!text) return;
 
-  const now = new Date().toLocaleString();
+  const now =
+    new Date().toLocaleString();
 
-  const tickets = getTickets();
+  const tickets =
+    getTickets();
 
   tickets.forEach(t => {
 
@@ -144,10 +162,11 @@ function addNote(id) {
       if (!Array.isArray(t.notes)) {
 
         t.notes = [];
-
       }
 
-      t.notes.push(now + " - " + text);
+      t.notes.push(
+        now + " - " + text
+      );
 
       t.updated = now;
     }
@@ -162,9 +181,11 @@ function addNote(id) {
 
 function updateStatus(id, val) {
 
-  const now = new Date().toLocaleString();
+  const now =
+    new Date().toLocaleString();
 
-  const tickets = getTickets();
+  const tickets =
+    getTickets();
 
   tickets.forEach(t => {
 
@@ -177,7 +198,6 @@ function updateStatus(id, val) {
       if (val === "Completed") {
 
         t.completed = now;
-
       }
     }
   });
@@ -187,13 +207,15 @@ function updateStatus(id, val) {
   render();
 }
 
-/* UPDATE ASSIGNMENT */
+/* UPDATE ASSIGNED */
 
 function updateAssigned(id, val) {
 
-  const now = new Date().toLocaleString();
+  const now =
+    new Date().toLocaleString();
 
-  const tickets = getTickets();
+  const tickets =
+    getTickets();
 
   tickets.forEach(t => {
 
@@ -233,15 +255,118 @@ function stats(t) {
 
   statNew.textContent =
     "New: " +
-    t.filter(x => x.progress === "New").length;
+    t.filter(
+      x => x.progress === "New"
+    ).length;
 
   statProg.textContent =
     "In Progress: " +
-    t.filter(x => x.progress === "In Progress").length;
+    t.filter(
+      x => x.progress === "In Progress"
+    ).length;
 
   statDone.textContent =
     "Completed: " +
-    t.filter(x => x.progress === "Completed").length;
+    t.filter(
+      x => x.progress === "Completed"
+    ).length;
+}
+
+/* EXPORT EXTERNAL TICKETS */
+
+function exportTickets() {
+
+  // ONLY EXTERNAL
+  const tickets =
+    getTickets().filter(
+      t => t.ticketType === "External"
+    );
+
+  if (tickets.length === 0) {
+
+    alert(
+      "No external tickets to export"
+    );
+
+    return;
+  }
+
+  const headers = [
+
+    "Business Name",
+    "Merchant ID",
+    "Requester",
+    "Assigned To",
+    "Date",
+    "Status",
+    "Priority",
+    "Request",
+    "Notes",
+    "Created",
+    "Updated",
+    "Completed"
+
+  ];
+
+  const rows =
+    tickets.map(t => [
+
+      t.businessName || "",
+      t.merchantId || "",
+      t.requester || "",
+      t.assignedTo || "",
+      t.date || "",
+      t.progress || "",
+      t.priority || "",
+      t.request || "",
+
+      Array.isArray(t.notes)
+        ? t.notes.join(" | ")
+        : "",
+
+      t.created || "",
+      t.updated || "",
+      t.completed || ""
+
+    ]);
+
+  let csvContent = "";
+
+  csvContent +=
+    headers.join(",") + "\n";
+
+  rows.forEach(r => {
+
+    const row =
+      r.map(x =>
+
+        `"${String(x).replace(/"/g, '""')}"`
+
+      );
+
+    csvContent +=
+      row.join(",") + "\n";
+  });
+
+  const blob =
+    new Blob(
+      [csvContent],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+  const link =
+    document.createElement("a");
+
+  link.href =
+    URL.createObjectURL(blob);
+
+  link.download =
+    "external-tickets.csv";
+
+  link.click();
 }
 
 /* RENDER */
@@ -249,18 +374,24 @@ function stats(t) {
 function render() {
 
   const box =
-    document.getElementById("activeContainer");
+    document.getElementById(
+      "activeContainer"
+    );
 
   if (!box) return;
 
-  let tickets = getTickets();
+  let tickets =
+    getTickets();
 
   const s =
-    (document.getElementById("search")?.value || "")
-    .toLowerCase();
+    (
+      document.getElementById("search")
+        ?.value || ""
+    ).toLowerCase();
 
   const f =
-    document.getElementById("filter")?.value || "All";
+    document.getElementById("filter")
+      ?.value || "All";
 
   if (f !== "All") {
 
@@ -280,6 +411,7 @@ function render() {
           t.merchantId +
           t.requester +
           t.assignedTo +
+          t.ticketType +
           (t.notes || []).join(" ")
 
         )
@@ -312,7 +444,9 @@ function render() {
     } else {
 
       notesHTML =
-        `<div class="note">No notes yet</div>`;
+        `<div class="note">
+          No notes yet
+        </div>`;
     }
 
     box.innerHTML += `
@@ -330,7 +464,11 @@ function render() {
 
           ${t.requester}<br>
 
-          Assigned: <b>${t.assignedTo || "Unassigned"}</b><br>
+          Type:
+          <b>${t.ticketType}</b><br>
+
+          Assigned:
+          <b>${t.assignedTo}</b><br>
 
           ${t.date}<br>
 
@@ -364,7 +502,9 @@ function render() {
 
           <hr>
 
-          <label><b>Assigned To:</b></label>
+          <label>
+            <b>Assigned To:</b>
+          </label>
 
           <select
             onchange="
@@ -403,9 +543,15 @@ function render() {
 
           <br><br>
 
-          <p>Created: ${t.created}</p>
+          <p>
+            Created:
+            ${t.created}
+          </p>
 
-          <p>Updated: ${t.updated}</p>
+          <p>
+            Updated:
+            ${t.updated}
+          </p>
 
           <p>
             Completed:
