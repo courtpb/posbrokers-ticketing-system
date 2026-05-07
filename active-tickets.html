@@ -36,8 +36,6 @@
 
   <div class="card">
 
-    <!-- DASHBOARD -->
-
     <div class="stats">
 
       <div class="stat" id="statAll">
@@ -58,8 +56,6 @@
 
     </div>
 
-    <!-- FILTERS -->
-
     <div class="filters">
 
       <input
@@ -73,35 +69,18 @@
         onchange="render()"
       >
 
-        <option>
-          All
-        </option>
-
-        <option>
-          New
-        </option>
-
-        <option>
-          In Progress
-        </option>
-
-        <option>
-          Completed
-        </option>
+        <option>All</option>
+        <option>New</option>
+        <option>In Progress</option>
+        <option>Completed</option>
 
       </select>
 
-      <!-- EXPORT BUTTON -->
-
       <button onclick="exportTickets()">
-
         Export External CSV
-
       </button>
 
     </div>
-
-    <!-- TICKETS -->
 
     <div id="activeContainer"></div>
 
