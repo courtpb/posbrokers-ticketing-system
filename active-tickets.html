@@ -16,10 +16,17 @@
 
   <div class="menu">
 
-    <a href="create-ticket.html">Create Ticket</a>
-    <a href="active-tickets.html">Active Tickets</a>
+    <a href="create-ticket.html">
+      Create Ticket
+    </a>
 
-    <button onclick="logout()">Logout</button>
+    <a href="active-tickets.html">
+      Active Tickets
+    </a>
+
+    <button onclick="logout()">
+      Logout
+    </button>
 
   </div>
 
@@ -30,6 +37,7 @@
   <div class="card">
 
     <!-- DASHBOARD -->
+
     <div class="stats">
 
       <div class="stat" id="statAll">
@@ -51,6 +59,7 @@
     </div>
 
     <!-- FILTERS -->
+
     <div class="filters">
 
       <input
@@ -59,16 +68,41 @@
         onkeyup="render()"
       >
 
-      <select id="filter" onchange="render()">
-        <option>All</option>
-        <option>New</option>
-        <option>In Progress</option>
-        <option>Completed</option>
+      <select
+        id="filter"
+        onchange="render()"
+      >
+
+        <option>
+          All
+        </option>
+
+        <option>
+          New
+        </option>
+
+        <option>
+          In Progress
+        </option>
+
+        <option>
+          Completed
+        </option>
+
       </select>
+
+      <!-- EXPORT BUTTON -->
+
+      <button onclick="exportTickets()">
+
+        Export External CSV
+
+      </button>
 
     </div>
 
     <!-- TICKETS -->
+
     <div id="activeContainer"></div>
 
   </div>
