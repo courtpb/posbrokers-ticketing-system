@@ -457,7 +457,8 @@ function render() {
           t.merchantId +
           t.requester +
           t.assignedTo +
-          t.ticketType
+          t.ticketType +
+          t.request
         )
           .toLowerCase()
           .includes(search)
@@ -520,16 +521,21 @@ function render() {
 
           <b>${t.businessName}</b><br>
 
+          Merchant ID:
           ${t.merchantId}<br>
 
-          ${t.requester}<br>
+          Date:
+          ${t.date}<br>
 
-          ${t.ticketType}<br>
-
-          Assigned:
+          Assigned To:
           <b>${t.assignedTo}</b><br>
 
-          ${t.progress}
+          Status:
+          <b>${t.progress}</b><br><br>
+
+          <b>Request Details:</b><br>
+
+          ${t.request}
 
         </div>
 
@@ -538,8 +544,6 @@ function render() {
           id="d-${t.id}"
           style="display:none;"
         >
-
-          <p>${t.request}</p>
 
           <hr>
 
