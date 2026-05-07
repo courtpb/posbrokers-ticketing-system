@@ -76,7 +76,7 @@
 
     </div>
 
-    <!-- SEARCH + FILTER -->
+    <!-- FILTERS -->
 
     <div class="filters">
 
@@ -91,37 +91,37 @@
         onchange="render()"
       >
 
-        <option>
+        <option value="All">
           All
         </option>
 
-        <option>
+        <option value="New">
           New
         </option>
 
-        <option>
+        <option value="In Progress">
           In Progress
         </option>
 
-        <option>
+        <option value="Completed">
           Completed
         </option>
 
       </select>
 
-      <!-- EXPORT BUTTON -->
-
       <button onclick="exportTickets()">
-
         Export All Tickets
-
       </button>
 
     </div>
 
-    <!-- TICKETS -->
+    <!-- ACTIVE TICKETS -->
 
-    <div id="activeContainer"></div>
+    <div id="activeContainer">
+
+      <!-- TICKETS LOAD HERE -->
+
+    </div>
 
   </div>
 
