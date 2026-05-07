@@ -161,7 +161,7 @@ function createTicket(e) {
     "active-tickets.html";
 }
 
-/* TOGGLE DETAILS */
+/* TOGGLE */
 
 function toggle(id) {
 
@@ -278,6 +278,33 @@ function updateAssigned(id, val) {
   render();
 }
 
+/* UPDATE TICKET TYPE */
+
+function updateTicketType(id, val) {
+
+  const tickets =
+    getTickets();
+
+  const now =
+    new Date().toLocaleString();
+
+  tickets.forEach(t => {
+
+    if (
+      String(t.id) === String(id)
+    ) {
+
+      t.ticketType = val;
+
+      t.updated = now;
+    }
+  });
+
+  saveTickets(tickets);
+
+  render();
+}
+
 /* DELETE */
 
 function del(id) {
@@ -294,7 +321,7 @@ function del(id) {
   render();
 }
 
-/* EXPORT ALL TICKETS */
+/* EXPORT */
 
 function exportTickets() {
 
@@ -529,6 +556,44 @@ function render() {
           >
             Add Note
           </button>
+
+          <br><br>
+
+          <label>
+            Ticket Type:
+          </label>
+
+          <select
+            onchange="
+              updateTicketType(
+                '${t.id}',
+                this.value
+              )
+            "
+          >
+
+            <option
+              value="Unassigned"
+              ${t.ticketType==="Unassigned"?"selected":""}
+            >
+              Unassigned
+            </option>
+
+            <option
+              value="External"
+              ${t.ticketType==="External"?"selected":""}
+            >
+              External
+            </option>
+
+            <option
+              value="Internal"
+              ${t.ticketType==="Internal"?"selected":""}
+            >
+              Internal
+            </option>
+
+          </select>
 
           <br><br>
 
