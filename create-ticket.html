@@ -2,75 +2,61 @@
 <html>
 
 <head>
-
   <title>Create Ticket</title>
-
   <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body onload="checkLogin()">
 
-  <div class="header">
+<div class="header">
+  <div class="logo">POS Brokers Tickets</div>
 
-    <div class="logo">
-      POS Brokers Ticketing
-    </div>
+  <div class="menu">
+    <a href="create-ticket.html">Create</a>
+    <a href="active-tickets.html">Active</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
 
-    <div class="menu">
+<div class="container">
+  <div class="card">
 
-      <a href="create-ticket.html">Create Ticket</a>
-      <a href="active-tickets.html">Active Tickets</a>
-      <a href="completed-tickets.html">Completed</a>
+    <h2>Create Ticket</h2>
 
-      <button onclick="logout()">Logout</button>
+    <form onsubmit="createTicket(event)">
 
-    </div>
+      <input id="businessName" placeholder="Business Name" required>
+
+      <input id="merchantId" placeholder="Merchant ID">
+
+      <input id="requester" placeholder="Requester">
+
+      <input id="date" type="date">
+
+      <select id="progress">
+        <option>New</option>
+        <option>In Progress</option>
+        <option>Completed</option>
+      </select>
+
+      <select id="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+
+      <textarea id="request" placeholder="Request Details"></textarea>
+
+      <textarea id="notes" placeholder="Initial Note (optional)"></textarea>
+
+      <button type="submit">Create Ticket</button>
+
+    </form>
 
   </div>
+</div>
 
-  <div class="container">
-
-    <div class="card">
-
-      <h2>Create Ticket</h2>
-
-      <form onsubmit="createTicket(event)">
-
-        <input id="businessName" placeholder="Business Name" required>
-
-        <input id="merchantId" placeholder="Merchant ID">
-
-        <input id="requester" placeholder="Requester Name">
-
-        <input id="date" type="date">
-
-        <select id="progress">
-          <option>New</option>
-          <option>In Progress</option>
-          <option>Completed</option>
-        </select>
-
-        <select id="priority">
-          <option value="low">Low Priority</option>
-          <option value="medium">Medium Priority</option>
-          <option value="high">High Priority</option>
-        </select>
-
-        <textarea id="request" placeholder="Request Details" required></textarea>
-
-        <textarea id="notes" placeholder="Initial Note (optional)"></textarea>
-
-        <button type="submit">Create Ticket</button>
-
-      </form>
-
-    </div>
-
-  </div>
-
-  <script src="app.js"></script>
+<script src="app.js"></script>
 
 </body>
-
 </html>
