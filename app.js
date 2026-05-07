@@ -71,6 +71,8 @@ function createTicket(e) {
 
     date: document.getElementById("date").value,
 
+    assignedTo: document.getElementById("assignedTo").value,
+
     request: document.getElementById("request").value,
 
     progress: document.getElementById("progress").value,
@@ -156,7 +158,7 @@ function addNote(id) {
   render();
 }
 
-/* STATUS */
+/* UPDATE STATUS */
 
 function updateStatus(id, val) {
 
@@ -177,6 +179,29 @@ function updateStatus(id, val) {
         t.completed = now;
 
       }
+    }
+  });
+
+  saveTickets(tickets);
+
+  render();
+}
+
+/* UPDATE ASSIGNMENT */
+
+function updateAssigned(id, val) {
+
+  const now = new Date().toLocaleString();
+
+  const tickets = getTickets();
+
+  tickets.forEach(t => {
+
+    if (String(t.id) === String(id)) {
+
+      t.assignedTo = val;
+
+      t.updated = now;
     }
   });
 
@@ -254,6 +279,7 @@ function render() {
           t.businessName +
           t.merchantId +
           t.requester +
+          t.assignedTo +
           (t.notes || []).join(" ")
 
         )
@@ -304,6 +330,8 @@ function render() {
 
           ${t.requester}<br>
 
+          Assigned: <b>${t.assignedTo || "Unassigned"}</b><br>
+
           ${t.date}<br>
 
           <b>${t.progress}</b>
@@ -335,6 +363,45 @@ function render() {
           </button>
 
           <hr>
+
+          <label><b>Assigned To:</b></label>
+
+          <select
+            onchange="
+              updateAssigned(
+                '${t.id}',
+                this.value
+              )
+            "
+          >
+
+            <option
+              ${t.assignedTo==="Bryan"?"selected":""}
+            >
+              Bryan
+            </option>
+
+            <option
+              ${t.assignedTo==="Che"?"selected":""}
+            >
+              Che
+            </option>
+
+            <option
+              ${t.assignedTo==="Courtney"?"selected":""}
+            >
+              Courtney
+            </option>
+
+            <option
+              ${t.assignedTo==="Pat"?"selected":""}
+            >
+              Pat
+            </option>
+
+          </select>
+
+          <br><br>
 
           <p>Created: ${t.created}</p>
 
