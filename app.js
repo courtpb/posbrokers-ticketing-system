@@ -1,229 +1,386 @@
 const USERNAME = "admin@posbrokers.com";
 const PASSWORD = "Court@go23";
 
-/* ---------------- LOGIN ---------------- */
+/* LOGIN */
 
 function login() {
+
   const u = document.getElementById("email").value;
   const p = document.getElementById("password").value;
 
   if (u === USERNAME && p === PASSWORD) {
+
     localStorage.setItem("auth", "true");
+
     window.location.href = "active-tickets.html";
+
   } else {
+
     alert("Invalid login");
+
   }
 }
 
 function logout() {
+
   localStorage.removeItem("auth");
+
   window.location.href = "index.html";
 }
 
 function checkLogin() {
+
   if (localStorage.getItem("auth") !== "true") {
+
     window.location.href = "index.html";
+
   }
 }
 
-/* ---------------- STORAGE ---------------- */
+/* STORAGE */
 
 function getTickets() {
+
   return JSON.parse(localStorage.getItem("tickets")) || [];
+
 }
 
 function saveTickets(t) {
+
   localStorage.setItem("tickets", JSON.stringify(t));
+
 }
 
-/* ---------------- CREATE ---------------- */
+/* CREATE TICKET */
 
 function createTicket(e) {
+
   e.preventDefault();
 
   const now = new Date().toLocaleString();
 
   const ticket = {
+
     id: String(Date.now()),
-    businessName: businessName.value,
-    merchantId: merchantId.value,
-    requester: requester.value,
-    date: date.value,
-    request: request.value,
-    progress: progress.value,
-    priority: priority.value,
+
+    businessName: document.getElementById("businessName").value,
+
+    merchantId: document.getElementById("merchantId").value,
+
+    requester: document.getElementById("requester").value,
+
+    date: document.getElementById("date").value,
+
+    request: document.getElementById("request").value,
+
+    progress: document.getElementById("progress").value,
+
+    priority: document.getElementById("priority").value,
+
     notes: [],
+
     created: now,
+
     updated: now,
+
     completed: ""
+
   };
 
-  const firstNote = notes.value;
-  if (firstNote) {
+  const firstNote = document.getElementById("notes").value;
+
+  if (firstNote && firstNote.trim() !== "") {
+
     ticket.notes.push(now + " - " + firstNote);
+
   }
 
-  const t = getTickets();
-  t.push(ticket);
-  saveTickets(t);
+  const tickets = getTickets();
+
+  tickets.push(ticket);
+
+  saveTickets(tickets);
 
   window.location.href = "active-tickets.html";
 }
 
-/* ---------------- TOGGLE ---------------- */
+/* TOGGLE */
 
 function toggle(id) {
+
   const el = document.getElementById(id);
+
   if (!el) return;
-  el.style.display = el.style.display === "block" ? "none" : "block";
+
+  el.style.display =
+    el.style.display === "block"
+      ? "none"
+      : "block";
 }
 
-/* ---------------- ADD NOTE (FIXED) ---------------- */
+/* ADD NOTE */
 
 function addNote(id) {
 
-  const input = document.getElementById("note-" + id);
+  const input =
+    document.getElementById("note-" + id);
+
   if (!input) return;
 
   const text = input.value.trim();
+
   if (!text) return;
 
   const now = new Date().toLocaleString();
 
   const tickets = getTickets();
 
-  const updated = tickets.map(t => {
+  tickets.forEach(t => {
 
     if (String(t.id) === String(id)) {
 
       if (!Array.isArray(t.notes)) {
+
         t.notes = [];
+
       }
 
       t.notes.push(now + " - " + text);
+
       t.updated = now;
     }
-
-    return t;
   });
+
+  saveTickets(tickets);
+
+  render();
+}
+
+/* STATUS */
+
+function updateStatus(id, val) {
+
+  const now = new Date().toLocaleString();
+
+  const tickets = getTickets();
+
+  tickets.forEach(t => {
+
+    if (String(t.id) === String(id)) {
+
+      t.progress = val;
+
+      t.updated = now;
+
+      if (val === "Completed") {
+
+        t.completed = now;
+
+      }
+    }
+  });
+
+  saveTickets(tickets);
+
+  render();
+}
+
+/* DELETE */
+
+function del(id) {
+
+  const updated =
+    getTickets().filter(
+      t => String(t.id) !== String(id)
+    );
 
   saveTickets(updated);
 
-  input.value = "";
-
   render();
 }
 
-/* ---------------- STATUS ---------------- */
-
-function updateStatus(id, val) {
-  const now = new Date().toLocaleString();
-
-  const t = getTickets();
-
-  t.forEach(x => {
-    if (String(x.id) === String(id)) {
-      x.progress = val;
-      x.updated = now;
-      if (val === "Completed") x.completed = now;
-    }
-  });
-
-  saveTickets(t);
-  render();
-}
-
-/* ---------------- DELETE ---------------- */
-
-function del(id) {
-  saveTickets(getTickets().filter(x => String(x.id) !== String(id)));
-  render();
-}
-
-/* ---------------- STATS ---------------- */
+/* STATS */
 
 function stats(t) {
-  statAll.textContent = "All: " + t.length;
-  statNew.textContent = "New: " + t.filter(x => x.progress === "New").length;
-  statProg.textContent = "In Progress: " + t.filter(x => x.progress === "In Progress").length;
-  statDone.textContent = "Completed: " + t.filter(x => x.progress === "Completed").length;
+
+  statAll.textContent =
+    "All: " + t.length;
+
+  statNew.textContent =
+    "New: " +
+    t.filter(x => x.progress === "New").length;
+
+  statProg.textContent =
+    "In Progress: " +
+    t.filter(x => x.progress === "In Progress").length;
+
+  statDone.textContent =
+    "Completed: " +
+    t.filter(x => x.progress === "Completed").length;
 }
 
-/* ---------------- RENDER ---------------- */
+/* RENDER */
 
 function render() {
 
-  const box = document.getElementById("activeContainer");
+  const box =
+    document.getElementById("activeContainer");
+
   if (!box) return;
 
-  let t = getTickets();
+  let tickets = getTickets();
 
-  const s = (search?.value || "").toLowerCase();
-  const f = filter?.value || "All";
+  const s =
+    (document.getElementById("search")?.value || "")
+    .toLowerCase();
+
+  const f =
+    document.getElementById("filter")?.value || "All";
 
   if (f !== "All") {
-    t = t.filter(x => x.progress === f);
+
+    tickets =
+      tickets.filter(
+        t => t.progress === f
+      );
   }
 
   if (s) {
-    t = t.filter(x =>
-      (x.businessName + x.merchantId + x.requester + (x.notes || []).join(" "))
-      .toLowerCase()
-      .includes(s)
-    );
+
+    tickets =
+      tickets.filter(t =>
+
+        (
+          t.businessName +
+          t.merchantId +
+          t.requester +
+          (t.notes || []).join(" ")
+
+        )
+          .toLowerCase()
+          .includes(s)
+      );
   }
 
   stats(getTickets());
 
   box.innerHTML = "";
 
-  t.reverse().forEach(x => {
+  tickets.reverse().forEach(t => {
 
     let notesHTML = "";
 
-    if (Array.isArray(x.notes) && x.notes.length > 0) {
-      notesHTML = x.notes.map(n => `<div class="note">${n}</div>`).join("");
+    if (
+      Array.isArray(t.notes) &&
+      t.notes.length > 0
+    ) {
+
+      notesHTML =
+        t.notes
+          .map(
+            n =>
+              `<div class="note">${n}</div>`
+          )
+          .join("");
+
     } else {
-      notesHTML = `<div class="note">No notes yet</div>`;
+
+      notesHTML =
+        `<div class="note">No notes yet</div>`;
     }
 
     box.innerHTML += `
-      <div class="ticket priority-${x.priority}">
 
-        <div class="ticket-summary" onclick="toggle('d-${x.id}')">
-          <b>${x.businessName}</b><br>
-          ${x.merchantId}<br>
-          ${x.requester}<br>
-          ${x.date}<br>
-          <b>${x.progress}</b>
+      <div class="ticket priority-${t.priority}">
+
+        <div
+          class="ticket-summary"
+          onclick="toggle('d-${t.id}')"
+        >
+
+          <b>${t.businessName}</b><br>
+
+          ${t.merchantId}<br>
+
+          ${t.requester}<br>
+
+          ${t.date}<br>
+
+          <b>${t.progress}</b>
+
         </div>
 
-        <div class="ticket-details" id="d-${x.id}">
+        <div
+          class="ticket-details"
+          id="d-${t.id}"
+        >
 
-          <p>${x.request}</p>
+          <p>${t.request}</p>
 
           <hr>
 
           ${notesHTML}
 
-          <textarea id="note-${x.id}"></textarea>
-          <button onclick="addNote('${x.id}')">Add Note</button>
+          <textarea
+            id="note-${t.id}"
+            placeholder="Add note"
+          ></textarea>
+
+          <br><br>
+
+          <button
+            onclick="addNote('${t.id}')"
+          >
+            Add Note
+          </button>
 
           <hr>
 
-          <p>Created: ${x.created}</p>
-          <p>Updated: ${x.updated}</p>
-          <p>Completed: ${x.completed || "No"}</p>
+          <p>Created: ${t.created}</p>
 
-          <select onchange="updateStatus('${x.id}', this.value)">
-            <option ${x.progress==="New"?"selected":""}>New</option>
-            <option ${x.progress==="In Progress"?"selected":""}>In Progress</option>
-            <option ${x.progress==="Completed"?"selected":""}>Completed</option>
+          <p>Updated: ${t.updated}</p>
+
+          <p>
+            Completed:
+            ${t.completed || "No"}
+          </p>
+
+          <select
+            onchange="
+              updateStatus(
+                '${t.id}',
+                this.value
+              )
+            "
+          >
+
+            <option
+              ${t.progress==="New"?"selected":""}
+            >
+              New
+            </option>
+
+            <option
+              ${t.progress==="In Progress"?"selected":""}
+            >
+              In Progress
+            </option>
+
+            <option
+              ${t.progress==="Completed"?"selected":""}
+            >
+              Completed
+            </option>
+
           </select>
 
           <br><br>
 
-          <button onclick="del('${x.id}')">Delete</button>
+          <button
+            onclick="del('${t.id}')"
+          >
+            Delete
+          </button>
 
         </div>
 
