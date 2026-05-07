@@ -9,29 +9,56 @@
 <body onload="checkLogin()">
 
 <div class="header">
-  <div class="logo">POS Brokers Tickets</div>
+
+  <div class="logo">
+    POS Brokers Tickets
+  </div>
 
   <div class="menu">
-    <a href="create-ticket.html">Create</a>
-    <a href="active-tickets.html">Active</a>
+    <a href="create-ticket.html">Create Ticket</a>
+    <a href="active-tickets.html">Active Tickets</a>
+
     <button onclick="logout()">Logout</button>
   </div>
+
 </div>
 
 <div class="container">
+
   <div class="card">
 
     <h2>Create Ticket</h2>
 
     <form onsubmit="createTicket(event)">
 
-      <input id="businessName" placeholder="Business Name" required>
+      <input
+        id="businessName"
+        placeholder="Business Name"
+        required
+      >
 
-      <input id="merchantId" placeholder="Merchant ID">
+      <br><br>
 
-      <input id="requester" placeholder="Requester">
+      <input
+        id="merchantId"
+        placeholder="Merchant ID"
+      >
 
-      <input id="date" type="date">
+      <br><br>
+
+      <input
+        id="requester"
+        placeholder="Requester"
+      >
+
+      <br><br>
+
+      <input
+        id="date"
+        type="date"
+      >
+
+      <br><br>
 
       <select id="progress">
         <option>New</option>
@@ -39,24 +66,42 @@
         <option>Completed</option>
       </select>
 
+      <br><br>
+
       <select id="priority">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
       </select>
 
-      <textarea id="request" placeholder="Request Details"></textarea>
+      <br><br>
 
-      <textarea id="notes" placeholder="Initial Note (optional)"></textarea>
+      <textarea
+        id="request"
+        placeholder="Request Details"
+      ></textarea>
 
-      <button type="submit">Create Ticket</button>
+      <br><br>
+
+      <textarea
+        id="notes"
+        placeholder="Initial Note"
+      ></textarea>
+
+      <br><br>
+
+      <button type="submit">
+        Create Ticket
+      </button>
 
     </form>
 
   </div>
+
 </div>
 
 <script src="app.js"></script>
 
 </body>
+
 </html>
