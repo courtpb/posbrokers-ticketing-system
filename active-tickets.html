@@ -2,8 +2,14 @@
 <html>
 
 <head>
+
   <title>Active Tickets</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
 </head>
 
 <body onload="checkLogin(); render();">
@@ -36,25 +42,41 @@
 
   <div class="card">
 
+    <!-- DASHBOARD -->
+
     <div class="stats">
 
-      <div class="stat" id="statAll">
+      <div
+        class="stat"
+        id="statAll"
+      >
         All: 0
       </div>
 
-      <div class="stat" id="statNew">
+      <div
+        class="stat"
+        id="statNew"
+      >
         New: 0
       </div>
 
-      <div class="stat" id="statProg">
+      <div
+        class="stat"
+        id="statProg"
+      >
         In Progress: 0
       </div>
 
-      <div class="stat" id="statDone">
+      <div
+        class="stat"
+        id="statDone"
+      >
         Completed: 0
       </div>
 
     </div>
+
+    <!-- SEARCH + FILTER -->
 
     <div class="filters">
 
@@ -69,18 +91,35 @@
         onchange="render()"
       >
 
-        <option>All</option>
-        <option>New</option>
-        <option>In Progress</option>
-        <option>Completed</option>
+        <option>
+          All
+        </option>
+
+        <option>
+          New
+        </option>
+
+        <option>
+          In Progress
+        </option>
+
+        <option>
+          Completed
+        </option>
 
       </select>
 
+      <!-- EXPORT BUTTON -->
+
       <button onclick="exportTickets()">
-        Export External CSV
+
+        Export All Tickets
+
       </button>
 
     </div>
+
+    <!-- TICKETS -->
 
     <div id="activeContainer"></div>
 
