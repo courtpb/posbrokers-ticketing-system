@@ -67,7 +67,7 @@ function saveTickets(t) {
   );
 }
 
-/* CREATE TICKET */
+/* CREATE */
 
 function createTicket(e) {
 
@@ -176,7 +176,7 @@ function toggle(id) {
       : "block";
 }
 
-/* ADD NOTE */
+/* NOTES */
 
 function addNote(id) {
 
@@ -217,7 +217,7 @@ function addNote(id) {
   render();
 }
 
-/* UPDATE STATUS */
+/* STATUS */
 
 function updateStatus(id, val) {
 
@@ -251,7 +251,7 @@ function updateStatus(id, val) {
   render();
 }
 
-/* UPDATE ASSIGNED */
+/* ASSIGNED */
 
 function updateAssigned(id, val) {
 
@@ -278,7 +278,7 @@ function updateAssigned(id, val) {
   render();
 }
 
-/* UPDATE TICKET TYPE */
+/* TICKET TYPE */
 
 function updateTicketType(id, val) {
 
@@ -536,6 +536,7 @@ function render() {
         <div
           class="ticket-details"
           id="d-${t.id}"
+          style="display:none;"
         >
 
           <p>${t.request}</p>
@@ -637,6 +638,10 @@ function render() {
           </select>
 
           <br><br>
+
+          <label>
+            Status:
+          </label>
 
           <select
             onchange="
